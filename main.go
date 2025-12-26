@@ -15,7 +15,7 @@ import (
 )
 
 // ----------------------------------------------------
-// 1. Dosya Okuma Modülü (Input Handler)
+// 1. Input Handler
 // ----------------------------------------------------
 func readTargetsFile(filePath string) ([]string, error) {
 	file, err := os.Open(filePath)
@@ -41,7 +41,7 @@ func readTargetsFile(filePath string) ([]string, error) {
 }
 
 // ----------------------------------------------------
-// 2. Tor Proxy Client + DOĞRU Health Check
+// 2. Tor Proxy Client +Health Check
 // ----------------------------------------------------
 func createTorClient(proxyAddr string) (*http.Client, error) {
 	dialer, err := proxy.SOCKS5("tcp", proxyAddr, nil, proxy.Direct)
@@ -55,7 +55,6 @@ func createTorClient(proxyAddr string) (*http.Client, error) {
 		return nil, fmt.Errorf("Tor proxy çalışıyor fakat dış bağlantı başarısız: %w", err)
 	}
 	conn.Close()
-	// --------------------
 
 	transport := &http.Transport{
 		DialContext:           dialer.(proxy.ContextDialer).DialContext,
@@ -75,7 +74,7 @@ func createTorClient(proxyAddr string) (*http.Client, error) {
 }
 
 // ----------------------------------------------------
-// 3. Tarama + Hata Yönetimi + Output Writer
+// 3.  Output Writer
 // ----------------------------------------------------
 func scrapeTarget(
 	client *http.Client,
